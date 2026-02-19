@@ -66,6 +66,9 @@ cp .env.example .env
 # Start everything (Redis, MongoDB, webhook-server, 2x event-worker)
 docker compose up --build
 
+# Watch alert output in real-time
+docker compose logs -f event-worker
+
 # Or run locally without Docker:
 npm run start:dev
 ```
