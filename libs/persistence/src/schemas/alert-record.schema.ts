@@ -10,10 +10,10 @@ export type AlertRecordDocument = HydratedDocument<AlertRecord>;
 
 @Schema({ timestamps: true })
 export class AlertRecord {
-  @Prop({ required: true, enum: Object.values(RuleName) })
+  @Prop({ required: true, type: String, enum: Object.values(RuleName) })
   ruleName: RuleName;
 
-  @Prop({ required: true, enum: Object.values(Severity) })
+  @Prop({ required: true, type: String, enum: Object.values(Severity) })
   severity: Severity;
 
   @Prop({ required: true })
@@ -27,6 +27,7 @@ export class AlertRecord {
 
   @Prop({
     required: true,
+    type: String,
     enum: Object.values(AlertStatus),
     default: AlertStatus.OPEN,
   })

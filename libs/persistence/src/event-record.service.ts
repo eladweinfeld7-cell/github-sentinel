@@ -85,7 +85,7 @@ export class EventRecordService {
           event.head_commit?.timestamp ?? new Date().toISOString(),
         );
       case WebhookEventType.TEAM:
-        return new Date(event.team.created_at);
+        return new Date();
       case WebhookEventType.REPOSITORY:
         return new Date(event.repository.created_at);
     }

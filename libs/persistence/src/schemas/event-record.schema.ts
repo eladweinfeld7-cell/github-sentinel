@@ -9,7 +9,7 @@ export class EventRecord {
   @Prop({ required: true })
   deliveryId: string;
 
-  @Prop({ required: true, enum: Object.values(WebhookEventType) })
+  @Prop({ required: true, type: String, enum: Object.values(WebhookEventType) })
   eventType: WebhookEventType;
 
   @Prop({ required: true })

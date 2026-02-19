@@ -15,7 +15,6 @@ export interface TeamWebhookEvent {
     description: string | null;
     privacy: 'closed' | 'secret';
     permission: string;
-    created_at: string;
   };
   organization: { login: string; id: number };
   sender: { login: string; id: number };
