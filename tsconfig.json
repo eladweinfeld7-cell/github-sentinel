@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2021",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "strictBindCallApply": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "@github-sentinel/github-types": ["libs/github-types/src"],
+      "@github-sentinel/github-types/*": ["libs/github-types/src/*"],
+      "@github-sentinel/detection-engine": ["libs/detection-engine/src"],
+      "@github-sentinel/detection-engine/*": ["libs/detection-engine/src/*"],
+      "@github-sentinel/persistence": ["libs/persistence/src"],
+      "@github-sentinel/persistence/*": ["libs/persistence/src/*"],
+      "@github-sentinel/notifications": ["libs/notifications/src"],
+      "@github-sentinel/notifications/*": ["libs/notifications/src/*"],
+      "@github-sentinel/queue": ["libs/queue/src"],
+      "@github-sentinel/queue/*": ["libs/queue/src/*"]
+    }
+  }
+}

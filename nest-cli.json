@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/webhook-server/src",
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/webhook-server/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/webhook-server",
+  "projects": {
+    "webhook-server": {
+      "type": "application",
+      "root": "apps/webhook-server",
+      "entryFile": "main",
+      "sourceRoot": "apps/webhook-server/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/webhook-server/tsconfig.app.json"
+      }
+    },
+    "event-worker": {
+      "type": "application",
+      "root": "apps/event-worker",
+      "entryFile": "main",
+      "sourceRoot": "apps/event-worker/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/event-worker/tsconfig.app.json"
+      }
+    },
+    "github-types": {
+      "type": "library",
+      "root": "libs/github-types",
+      "entryFile": "index",
+      "sourceRoot": "libs/github-types/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/github-types/tsconfig.lib.json"
+      }
+    },
+    "detection-engine": {
+      "type": "library",
+      "root": "libs/detection-engine",
+      "entryFile": "index",
+      "sourceRoot": "libs/detection-engine/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/detection-engine/tsconfig.lib.json"
+      }
+    },
+    "persistence": {
+      "type": "library",
+      "root": "libs/persistence",
+      "entryFile": "index",
+      "sourceRoot": "libs/persistence/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/persistence/tsconfig.lib.json"
+      }
+    },
+    "notifications": {
+      "type": "library",
+      "root": "libs/notifications",
+      "entryFile": "index",
+      "sourceRoot": "libs/notifications/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/notifications/tsconfig.lib.json"
+      }
+    },
+    "queue": {
+      "type": "library",
+      "root": "libs/queue",
+      "entryFile": "index",
+      "sourceRoot": "libs/queue/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/queue/tsconfig.lib.json"
+      }
+    }
+  }
+}

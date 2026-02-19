@@ -1,0 +1,18 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: event-worker-scaledobject
+  namespace: github-sentinel
+spec:
+  scaleTargetRef:
+    name: event-worker
+  minReplicaCount: 2
+  maxReplicaCount: 20
+  pollingInterval: 15
+  cooldownPeriod: 60
+  triggers:
+    - type: redis
+      metadata:
+        address: redis.github-sentinel.svc.cluster.local:6379
+        listName: 'bull:webhook-events:wait'
+        listLength: '50'

@@ -1,0 +1,16 @@
+{
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "rootDir": ".",
+  "testEnvironment": "node",
+  "testRegex": ".e2e-spec.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "moduleNameMapper": {
+    "^@github-sentinel/github-types(|/.*)$": "<rootDir>/../../../libs/github-types/src/$1",
+    "^@github-sentinel/detection-engine(|/.*)$": "<rootDir>/../../../libs/detection-engine/src/$1",
+    "^@github-sentinel/persistence(|/.*)$": "<rootDir>/../../../libs/persistence/src/$1",
+    "^@github-sentinel/notifications(|/.*)$": "<rootDir>/../../../libs/notifications/src/$1",
+    "^@github-sentinel/queue(|/.*)$": "<rootDir>/../../../libs/queue/src/$1"
+  }
+}

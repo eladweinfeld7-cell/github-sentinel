@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment variables
+.env
+
+# Test coverage
+coverage/
+
+# Source maps
+*.js.map
+
+# macOS
+.DS_Store

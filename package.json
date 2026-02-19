@@ -1,0 +1,99 @@
+{
+  "name": "github-sentinel",
+  "version": "0.0.1",
+  "description": "GitHub organization webhook security monitor",
+  "author": "",
+  "private": true,
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "nest build",
+    "build:webhook-server": "nest build webhook-server",
+    "build:event-worker": "nest build event-worker",
+    "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\" \"rules/**/*.ts\"",
+    "start:webhook-server": "nest start webhook-server",
+    "start:webhook-server:dev": "nest start webhook-server --watch",
+    "start:event-worker": "nest start event-worker",
+    "start:event-worker:dev": "nest start event-worker --watch",
+    "start:dev": "concurrently \"npm run start:webhook-server:dev\" \"npm run start:event-worker:dev\"",
+    "lint": "eslint \"{src,apps,libs,rules,test}/**/*.ts\" --fix",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e:webhook-server": "jest --config ./apps/webhook-server/test/jest-e2e.json",
+    "test:e2e:event-worker": "jest --config ./apps/event-worker/test/jest-e2e.json",
+    "generate:rule": "ts-node scripts/generate-rule.ts",
+    "generate:app": "ts-node scripts/generate-app.ts",
+    "generate:lib": "ts-node scripts/generate-lib.ts",
+    "docker:up": "docker compose up --build",
+    "docker:down": "docker compose down"
+  },
+  "dependencies": {
+    "@nestjs/common": "^10.0.0",
+    "@nestjs/config": "^3.0.0",
+    "@nestjs/core": "^10.0.0",
+    "@nestjs/mongoose": "^10.0.0",
+    "@nestjs/platform-express": "^10.0.0",
+    "@nestjs/throttler": "^5.0.0",
+    "@golevelup/nestjs-discovery": "^4.0.0",
+    "@nestjs/bullmq": "^10.0.0",
+    "bullmq": "^5.0.0",
+    "mongoose": "^8.0.0",
+    "reflect-metadata": "^0.2.0",
+    "rxjs": "^7.8.1"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^10.0.0",
+    "@nestjs/schematics": "^10.0.0",
+    "@nestjs/testing": "^10.0.0",
+    "@types/express": "^5.0.0",
+    "@types/jest": "^29.5.2",
+    "@types/node": "^20.3.1",
+    "@types/supertest": "^6.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "concurrently": "^9.0.0",
+    "eslint": "^8.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "jest": "^29.5.0",
+    "mongodb-memory-server": "^10.0.0",
+    "prettier": "^3.0.0",
+    "source-map-support": "^0.5.21",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.1.0",
+    "ts-loader": "^9.4.3",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.1.3"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": ".",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "**/*.(t|j)s"
+    ],
+    "coverageDirectory": "./coverage",
+    "testEnvironment": "node",
+    "roots": [
+      "<rootDir>/apps/",
+      "<rootDir>/libs/",
+      "<rootDir>/rules/"
+    ],
+    "moduleNameMapper": {
+      "^@github-sentinel/github-types(|/.*)$": "<rootDir>/libs/github-types/src/$1",
+      "^@github-sentinel/detection-engine(|/.*)$": "<rootDir>/libs/detection-engine/src/$1",
+      "^@github-sentinel/persistence(|/.*)$": "<rootDir>/libs/persistence/src/$1",
+      "^@github-sentinel/notifications(|/.*)$": "<rootDir>/libs/notifications/src/$1",
+      "^@github-sentinel/queue(|/.*)$": "<rootDir>/libs/queue/src/$1"
+    }
+  }
+}

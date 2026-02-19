@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: github-sentinel-config
+  namespace: github-sentinel
+data:
+  REDIS_HOST: redis.github-sentinel.svc.cluster.local
+  REDIS_PORT: '6379'
+  MONGODB_URI: mongodb://mongodb.github-sentinel.svc.cluster.local:27017/github-sentinel
+  PORT: '3000'
+  SUSPICIOUS_PUSH_TIMEZONE: UTC
+  SUSPICIOUS_PUSH_START_HOUR: '14'
+  SUSPICIOUS_PUSH_END_HOUR: '16'
+  RAPID_DELETE_WINDOW_MINUTES: '10'

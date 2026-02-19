@@ -1,0 +1,29 @@
+import { Module } from '@nestjs/common';
+import { BullModule } from '@nestjs/bullmq';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { QueueProducerService } from './queue-producer.service';
+
+@Module({
+  imports: [
+    BullModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        connection: {
+          host: config.get<string>('REDIS_HOST', 'localhost'),
+          port: config.get<number>('REDIS_PORT', 6379),
+        },
+        defaultJobOptions: {
+          removeOnComplete: true,
+          removeOnFail: 1000,
+        },
+      }),
+    }),
+    BullModule.registerQueue({
+      name: 'webhook-events',
+    }),
+  ],
+  providers: [QueueProducerService],
+  exports: [QueueProducerService, BullModule],
+})
+export class QueueModule {}
