@@ -5,7 +5,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { APP_GUARD } from '@nestjs/core';
 import { WebhookModule } from './webhook/webhook.module';
 import { HealthModule } from './health/health.module';
-import { QueueModule } from '@github-sentinel/queue';
 
 @Module({
   imports: [
@@ -26,7 +25,6 @@ import { QueueModule } from '@github-sentinel/queue';
         limit: 100,
       },
     ]),
-    QueueModule,
     WebhookModule,
     HealthModule,
   ],

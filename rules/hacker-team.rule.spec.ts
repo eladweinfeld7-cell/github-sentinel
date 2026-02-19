@@ -68,7 +68,6 @@ function createTeamEvent(action: string, teamName: string): TeamWebhookEvent {
       description: null,
       privacy: 'closed',
       permission: 'pull',
-      created_at: '2024-01-15T14:00:00Z',
     },
     organization: { login: 'test-org', id: 1 },
     sender: { login: 'testuser', id: 1 },
