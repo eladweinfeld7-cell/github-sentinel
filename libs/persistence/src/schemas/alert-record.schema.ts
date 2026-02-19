@@ -1,6 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { AlertStatus, RuleName, Severity } from '@github-sentinel/detection-engine';
+import {
+  AlertStatus,
+  RuleName,
+  Severity,
+} from '@github-sentinel/detection-engine';
 
 export type AlertRecordDocument = HydratedDocument<AlertRecord>;
 

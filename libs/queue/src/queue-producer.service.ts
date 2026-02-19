@@ -11,9 +11,7 @@ export interface WebhookJobData {
 
 @Injectable()
 export class QueueProducerService {
-  constructor(
-    @InjectQueue('webhook-events') private readonly queue: Queue,
-  ) {}
+  constructor(@InjectQueue('webhook-events') private readonly queue: Queue) {}
 
   async enqueue(data: WebhookJobData): Promise<void> {
     await this.queue.add('process-event', data, {

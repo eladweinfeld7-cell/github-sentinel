@@ -3,7 +3,10 @@ import { Inject, Logger } from '@nestjs/common';
 import { Job } from 'bullmq';
 import { WebhookJobData } from '@github-sentinel/queue';
 import { RuleEngineService } from '@github-sentinel/detection-engine';
-import { EventRecordService, AlertRecordService } from '@github-sentinel/persistence';
+import {
+  EventRecordService,
+  AlertRecordService,
+} from '@github-sentinel/persistence';
 import { Notifier, NOTIFIER } from '@github-sentinel/notifications';
 
 @Processor('webhook-events')
@@ -35,8 +38,14 @@ export class EventProcessor extends WorkerHost {
     try {
       await this.eventRecordService.create(deliveryId, event);
     } catch (err: unknown) {
-      if (err instanceof Error && 'code' in err && (err as Record<string, unknown>).code === 11000) {
-        this.logger.warn(`Duplicate delivery [${deliveryId}] caught by unique index, skipping`);
+      if (
+        err instanceof Error &&
+        'code' in err &&
+        (err as Record<string, unknown>).code === 11000
+      ) {
+        this.logger.warn(
+          `Duplicate delivery [${deliveryId}] caught by unique index, skipping`,
+        );
         return;
       }
       throw err;
@@ -52,7 +61,9 @@ export class EventProcessor extends WorkerHost {
     }
 
     if (alerts.length > 0) {
-      this.logger.log(`Generated ${alerts.length} alert(s) for [${deliveryId}]`);
+      this.logger.log(
+        `Generated ${alerts.length} alert(s) for [${deliveryId}]`,
+      );
     }
   }
 }

@@ -1,7 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigService } from '@nestjs/config';
 import { PushTimeAnomalyRule } from './push-time-anomaly.rule';
-import { PushWebhookEvent, WebhookEventType } from '@github-sentinel/github-types';
+import {
+  PushWebhookEvent,
+  WebhookEventType,
+} from '@github-sentinel/github-types';
 import { RuleName, Severity } from '@github-sentinel/detection-engine';
 
 describe('PushTimeAnomalyRule', () => {
@@ -87,7 +90,11 @@ function createPushEvent(timestamp: string): PushWebhookEvent {
       id: 'def456',
       message: 'test commit',
       timestamp,
-      author: { name: 'testuser', email: 'test@example.com', username: 'testuser' },
+      author: {
+        name: 'testuser',
+        email: 'test@example.com',
+        username: 'testuser',
+      },
     },
     commits: [],
     forced: false,

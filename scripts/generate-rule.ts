@@ -72,6 +72,10 @@ fs.writeFileSync(specPath, specContent);
 console.log(`Created: rules/${name}.rule.ts`);
 console.log(`Created: rules/${name}.rule.spec.ts`);
 console.log(`\nNext steps:`);
-console.log(`  1. Add ${pascalCase}Rule to RuleName enum in libs/detection-engine/src/enums.ts`);
-console.log(`  2. Register ${pascalCase}Rule as a provider in apps/event-worker/src/app.module.ts`);
+console.log(
+  `  1. Add ${pascalCase}Rule to RuleName enum in libs/detection-engine/src/enums.ts`,
+);
+console.log(
+  `  2. Register ${pascalCase}Rule as a provider in apps/event-worker/src/app.module.ts`,
+);
 console.log(`  3. Implement detection logic and tests`);

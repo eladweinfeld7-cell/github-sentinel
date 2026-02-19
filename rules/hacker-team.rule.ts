@@ -1,7 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { Rule } from '@github-sentinel/detection-engine';
-import { DetectionRule, AlertData, RuleName, Severity } from '@github-sentinel/detection-engine';
-import { WebhookEvent, TeamWebhookEvent, WebhookEventType } from '@github-sentinel/github-types';
+import {
+  DetectionRule,
+  AlertData,
+  RuleName,
+  Severity,
+} from '@github-sentinel/detection-engine';
+import {
+  WebhookEvent,
+  TeamWebhookEvent,
+  WebhookEventType,
+} from '@github-sentinel/github-types';
 
 @Rule({
   name: RuleName.HACKER_TEAM,

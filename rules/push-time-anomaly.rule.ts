@@ -1,7 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { Rule } from '@github-sentinel/detection-engine';
-import { DetectionRule, AlertData, RuleName, Severity } from '@github-sentinel/detection-engine';
-import { WebhookEvent, PushWebhookEvent, WebhookEventType } from '@github-sentinel/github-types';
+import {
+  DetectionRule,
+  AlertData,
+  RuleName,
+  Severity,
+} from '@github-sentinel/detection-engine';
+import {
+  WebhookEvent,
+  PushWebhookEvent,
+  WebhookEventType,
+} from '@github-sentinel/github-types';
 import { ConfigService } from '@nestjs/config';
 
 @Rule({
@@ -25,7 +34,8 @@ export class PushTimeAnomalyRule implements DetectionRule {
   async evaluate(event: WebhookEvent): Promise<AlertData | null> {
     const pushEvent = event as PushWebhookEvent;
 
-    const timestamp = pushEvent.head_commit?.timestamp ?? new Date().toISOString();
+    const timestamp =
+      pushEvent.head_commit?.timestamp ?? new Date().toISOString();
     const pushDate = new Date(timestamp);
 
     const hour = this.getHourInTimezone(pushDate, this.timezone);

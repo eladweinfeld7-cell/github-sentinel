@@ -15,7 +15,9 @@ if (fs.existsSync(appDir)) {
 }
 
 fs.mkdirSync(appDir, { recursive: true });
-fs.mkdirSync(path.join(__dirname, '..', 'apps', name, 'test'), { recursive: true });
+fs.mkdirSync(path.join(__dirname, '..', 'apps', name, 'test'), {
+  recursive: true,
+});
 
 const mainContent = `import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
@@ -58,7 +60,10 @@ const tsconfigContent = `{
 
 fs.writeFileSync(path.join(appDir, 'main.ts'), mainContent);
 fs.writeFileSync(path.join(appDir, 'app.module.ts'), moduleContent);
-fs.writeFileSync(path.join(__dirname, '..', 'apps', name, 'tsconfig.app.json'), tsconfigContent);
+fs.writeFileSync(
+  path.join(__dirname, '..', 'apps', name, 'tsconfig.app.json'),
+  tsconfigContent,
+);
 
 console.log(`Created: apps/${name}/src/main.ts`);
 console.log(`Created: apps/${name}/src/app.module.ts`);

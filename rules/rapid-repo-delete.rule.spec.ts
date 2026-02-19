@@ -1,7 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigService } from '@nestjs/config';
 import { RapidRepoDeleteRule } from './rapid-repo-delete.rule';
-import { RepositoryWebhookEvent, WebhookEventType } from '@github-sentinel/github-types';
+import {
+  RepositoryWebhookEvent,
+  WebhookEventType,
+} from '@github-sentinel/github-types';
 import { EventRecordService } from '@github-sentinel/persistence';
 import { RuleName, Severity } from '@github-sentinel/detection-engine';
 

@@ -17,7 +17,10 @@ import { RapidRepoDeleteRule } from '../../../rules/rapid-repo-delete.rule';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
-        uri: config.get<string>('MONGODB_URI', 'mongodb://localhost:27017/github-sentinel'),
+        uri: config.get<string>(
+          'MONGODB_URI',
+          'mongodb://localhost:27017/github-sentinel',
+        ),
       }),
     }),
     BullModule.forRootAsync({

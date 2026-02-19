@@ -46,7 +46,10 @@ const tsconfigContent = `{
 
 fs.writeFileSync(path.join(libDir, `${name}.module.ts`), moduleContent);
 fs.writeFileSync(path.join(libDir, 'index.ts'), indexContent);
-fs.writeFileSync(path.join(__dirname, '..', 'libs', name, 'tsconfig.lib.json'), tsconfigContent);
+fs.writeFileSync(
+  path.join(__dirname, '..', 'libs', name, 'tsconfig.lib.json'),
+  tsconfigContent,
+);
 
 console.log(`Created: libs/${name}/src/${name}.module.ts`);
 console.log(`Created: libs/${name}/src/index.ts`);

@@ -18,8 +18,8 @@ export class ConsoleNotifierService implements Notifier {
 
     console.log(
       `\n${color}[${alert.severity.toUpperCase()}]${reset} ${alert.ruleName}\n` +
-      `  ${alert.message}\n` +
-      `  ${JSON.stringify(alert.metadata, null, 2)}\n`,
+        `  ${alert.message}\n` +
+        `  ${JSON.stringify(alert.metadata, null, 2)}\n`,
     );
   }
 }

@@ -1,6 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { HackerTeamRule } from './hacker-team.rule';
-import { TeamWebhookEvent, WebhookEventType } from '@github-sentinel/github-types';
+import {
+  TeamWebhookEvent,
+  WebhookEventType,
+} from '@github-sentinel/github-types';
 import { RuleName, Severity } from '@github-sentinel/detection-engine';
 
 describe('HackerTeamRule', () => {

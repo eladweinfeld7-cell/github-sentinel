@@ -17,9 +17,10 @@ export class RuleEngineService implements OnModuleInit {
   constructor(private readonly discovery: DiscoveryService) {}
 
   async onModuleInit(): Promise<void> {
-    const providers = await this.discovery.providersWithMetaAtKey<RuleMetadata>(
-      RULE_METADATA_KEY,
-    );
+    const providers =
+      await this.discovery.providersWithMetaAtKey<RuleMetadata>(
+        RULE_METADATA_KEY,
+      );
 
     this.rules = providers.map((p) => ({
       meta: p.meta,

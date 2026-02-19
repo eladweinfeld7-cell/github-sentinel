@@ -1,4 +1,10 @@
-import { CanActivate, ExecutionContext, Injectable, UnauthorizedException, Logger } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+  Logger,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createHmac, timingSafeEqual } from 'crypto';
 import { Request } from 'express';
@@ -20,9 +26,8 @@ export class SignatureGuard implements CanActivate {
     }
 
     const rawBody = (req as Request & { rawBody: Buffer }).rawBody;
-    const expected = 'sha256=' + createHmac('sha256', secret)
-      .update(rawBody)
-      .digest('hex');
+    const expected =
+      'sha256=' + createHmac('sha256', secret).update(rawBody).digest('hex');
 
     const sig = Buffer.from(signature);
     const exp = Buffer.from(expected);

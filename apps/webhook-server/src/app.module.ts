@@ -14,13 +14,18 @@ import { QueueModule } from '@github-sentinel/queue';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
-        uri: config.get<string>('MONGODB_URI', 'mongodb://localhost:27017/github-sentinel'),
+        uri: config.get<string>(
+          'MONGODB_URI',
+          'mongodb://localhost:27017/github-sentinel',
+        ),
       }),
     }),
-    ThrottlerModule.forRoot([{
-      ttl: 60_000,
-      limit: 100,
-    }]),
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60_000,
+        limit: 100,
+      },
+    ]),
     QueueModule,
     WebhookModule,
     HealthModule,

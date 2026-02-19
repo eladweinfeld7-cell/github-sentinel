@@ -2,8 +2,16 @@ import { WebhookEventType } from './enums';
 
 export interface RepositoryWebhookEvent {
   type: WebhookEventType.REPOSITORY;
-  action: 'created' | 'deleted' | 'archived' | 'unarchived' | 'edited'
-        | 'renamed' | 'transferred' | 'publicized' | 'privatized';
+  action:
+    | 'created'
+    | 'deleted'
+    | 'archived'
+    | 'unarchived'
+    | 'edited'
+    | 'renamed'
+    | 'transferred'
+    | 'publicized'
+    | 'privatized';
   repository: {
     id: number;
     name: string;

@@ -1,7 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { Rule } from '@github-sentinel/detection-engine';
-import { DetectionRule, AlertData, RuleName, Severity } from '@github-sentinel/detection-engine';
-import { WebhookEvent, RepositoryWebhookEvent, WebhookEventType } from '@github-sentinel/github-types';
+import {
+  DetectionRule,
+  AlertData,
+  RuleName,
+  Severity,
+} from '@github-sentinel/detection-engine';
+import {
+  WebhookEvent,
+  RepositoryWebhookEvent,
+  WebhookEventType,
+} from '@github-sentinel/github-types';
 import { EventRecordService } from '@github-sentinel/persistence';
 import { ConfigService } from '@nestjs/config';
 

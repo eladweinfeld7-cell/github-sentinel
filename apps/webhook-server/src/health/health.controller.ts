@@ -15,7 +15,11 @@ export class HealthController {
 
   @Get('ready')
   async readiness(): Promise<{ status: string; mongodb: string }> {
-    const mongoState = this.connection.readyState === 1 ? 'connected' : 'disconnected';
-    return { status: mongoState === 'connected' ? 'ok' : 'degraded', mongodb: mongoState };
+    const mongoState =
+      this.connection.readyState === 1 ? 'connected' : 'disconnected';
+    return {
+      status: mongoState === 'connected' ? 'ok' : 'degraded',
+      mongodb: mongoState,
+    };
   }
 }

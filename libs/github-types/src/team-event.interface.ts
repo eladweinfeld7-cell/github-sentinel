@@ -2,7 +2,12 @@ import { WebhookEventType } from './enums';
 
 export interface TeamWebhookEvent {
   type: WebhookEventType.TEAM;
-  action: 'created' | 'deleted' | 'edited' | 'added_to_repository' | 'removed_from_repository';
+  action:
+    | 'created'
+    | 'deleted'
+    | 'edited'
+    | 'added_to_repository'
+    | 'removed_from_repository';
   team: {
     id: number;
     name: string;

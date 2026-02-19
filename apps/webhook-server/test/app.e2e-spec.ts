@@ -44,9 +44,9 @@ describe('Webhook Server (E2E)', () => {
 
   it('accepts valid push event and returns queued', async () => {
     const payload = JSON.stringify(createValidPushPayload());
-    const signature = 'sha256=' + createHmac('sha256', webhookSecret)
-      .update(payload)
-      .digest('hex');
+    const signature =
+      'sha256=' +
+      createHmac('sha256', webhookSecret).update(payload).digest('hex');
 
     await request(app.getHttpServer())
       .post('/webhook')
@@ -63,9 +63,9 @@ describe('Webhook Server (E2E)', () => {
 
   it('ignores unsupported event types', async () => {
     const payload = JSON.stringify({ action: 'completed' });
-    const signature = 'sha256=' + createHmac('sha256', webhookSecret)
-      .update(payload)
-      .digest('hex');
+    const signature =
+      'sha256=' +
+      createHmac('sha256', webhookSecret).update(payload).digest('hex');
 
     await request(app.getHttpServer())
       .post('/webhook')
