@@ -73,6 +73,27 @@ docker compose logs -f event-worker
 npm run start:dev
 ```
 
+### Stop
+
+```bash
+# Docker Compose
+docker compose down            # stop containers
+docker compose down -v         # stop + delete volumes (MongoDB data)
+
+# Local dev (npm run start:dev)
+# Ctrl+C in the terminal
+```
+
+### Clean the Database
+
+```bash
+docker exec -it github-sentinel-mongodb-1 mongosh github-sentinel --eval "db.dropDatabase()"
+```
+
+### Queue Dashboard
+
+Bull Board UI is available at `http://localhost:3000/admin/queues` when the webhook-server is running.
+
 ### Run Tests
 
 ```bash
@@ -81,6 +102,13 @@ npm test
 
 # E2E tests (requires Redis + MongoDB running)
 npm run test:e2e:webhook-server
+```
+
+### Pressure Test
+
+```bash
+# Send 50 simulated webhook events at 10 concurrency (requires webhook-server running)
+npx ts-node scripts/pressure-test.ts --count 50 --concurrency 10
 ```
 
 ## Project Structure

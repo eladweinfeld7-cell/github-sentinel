@@ -26,17 +26,20 @@
     "generate:app": "ts-node scripts/generate-app.ts",
     "generate:lib": "ts-node scripts/generate-lib.ts",
     "docker:up": "docker compose up --build",
-    "docker:down": "docker compose down"
+    "docker:down": "docker compose down",
+    "pressure-test": "ts-node scripts/pressure-test.ts"
   },
   "dependencies": {
+    "@bull-board/api": "^6.19.0",
+    "@bull-board/express": "^6.19.0",
+    "@golevelup/nestjs-discovery": "^4.0.0",
+    "@nestjs/bullmq": "^10.0.0",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.0.0",
     "@nestjs/core": "^10.0.0",
     "@nestjs/mongoose": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/throttler": "^5.0.0",
-    "@golevelup/nestjs-discovery": "^4.0.0",
-    "@nestjs/bullmq": "^10.0.0",
     "bullmq": "^5.0.0",
     "mongoose": "^8.0.0",
     "reflect-metadata": "^0.2.0",

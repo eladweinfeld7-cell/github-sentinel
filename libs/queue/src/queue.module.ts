@@ -15,7 +15,7 @@ import { WEBHOOK_EVENTS_QUEUE } from './constants';
           port: config.get<number>('REDIS_PORT', 6379),
         },
         defaultJobOptions: {
-          removeOnComplete: true,
+          removeOnComplete: { count: 100 },
           removeOnFail: 1000,
         },
       }),
