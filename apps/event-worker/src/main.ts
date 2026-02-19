@@ -10,4 +10,4 @@ async function bootstrap() {
   Logger.log('event-worker started (no HTTP)', 'Bootstrap');
 }
 
-bootstrap();
+void bootstrap();

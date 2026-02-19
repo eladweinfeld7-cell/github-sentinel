@@ -33,7 +33,7 @@ async function bootstrap() {
   Logger.log(\`${name} listening on :\${port}\`, 'Bootstrap');
 }
 
-bootstrap();
+void bootstrap();
 `;
 
 const moduleContent = `import { Module } from '@nestjs/common';

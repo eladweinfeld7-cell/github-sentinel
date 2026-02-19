@@ -15,4 +15,4 @@ async function bootstrap() {
   Logger.log(`webhook-server listening on :${port}`, 'Bootstrap');
 }
 
-bootstrap();
+void bootstrap();

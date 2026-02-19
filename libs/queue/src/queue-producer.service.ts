@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectQueue } from '@nestjs/bullmq';
 import { Queue } from 'bullmq';
 import { WebhookEvent } from '@github-sentinel/github-types';
+import { WEBHOOK_EVENTS_QUEUE } from './constants';
 
 export interface WebhookJobData {
   deliveryId: string;
@@ -11,7 +12,9 @@ export interface WebhookJobData {
 
 @Injectable()
 export class QueueProducerService {
-  constructor(@InjectQueue('webhook-events') private readonly queue: Queue) {}
+  constructor(
+    @InjectQueue(WEBHOOK_EVENTS_QUEUE) private readonly queue: Queue,
+  ) {}
 
   async enqueue(data: WebhookJobData): Promise<void> {
     await this.queue.add('process-event', data, {

@@ -1,7 +1,11 @@
 import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { Inject, Logger } from '@nestjs/common';
 import { Job } from 'bullmq';
-import { WebhookJobData } from '@github-sentinel/queue';
+import {
+  WebhookJobData,
+  jitterBackoff,
+  WEBHOOK_EVENTS_QUEUE,
+} from '@github-sentinel/queue';
 import { RuleEngineService } from '@github-sentinel/detection-engine';
 import {
   EventRecordService,
@@ -9,7 +13,11 @@ import {
 } from '@github-sentinel/persistence';
 import { Notifier, NOTIFIER } from '@github-sentinel/notifications';
 
-@Processor('webhook-events')
+@Processor(WEBHOOK_EVENTS_QUEUE, {
+  settings: {
+    backoffStrategy: jitterBackoff,
+  },
+})
 export class EventProcessor extends WorkerHost {
   private readonly logger = new Logger(EventProcessor.name);
 

@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { BullModule } from '@nestjs/bullmq';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { QueueProducerService } from './queue-producer.service';
+import { WEBHOOK_EVENTS_QUEUE } from './constants';
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import { QueueProducerService } from './queue-producer.service';
       }),
     }),
     BullModule.registerQueue({
-      name: 'webhook-events',
+      name: WEBHOOK_EVENTS_QUEUE,
     }),
   ],
   providers: [QueueProducerService],
