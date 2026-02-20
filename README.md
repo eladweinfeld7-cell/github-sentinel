@@ -203,6 +203,12 @@ npx smee-client --url <smee-url> --target http://localhost:3000/webhook
 
 ## Demo Walkthrough
 
+Load env vars first (SMEE_URL and GITHUB_ORG are saved in `.env`):
+
+```bash
+source .env
+```
+
 **Terminal 1 — Start the system**
 ```bash
 docker compose up --build -d
@@ -211,21 +217,25 @@ docker compose logs -f event-worker    # watch alerts appear here
 
 **Terminal 2 — Start webhook proxy** (forwards GitHub events to localhost)
 ```bash
-npx smee-client --url <smee-url> --target http://localhost:3000/webhook
+npx smee-client --url $SMEE_URL --target http://localhost:3000/webhook
 ```
 
 **Terminal 3 — Trigger real GitHub events**
 ```bash
 # 1. Hacker Team alert (HIGH)
-gh api orgs/<org-name>/teams --method POST \
+gh api orgs/$GITHUB_ORG/teams --method POST \
   --field name=hacker-demo --field privacy=closed
 
 # 2. Push Time Anomaly (MEDIUM) — push a code change during 14:00-16:00 Israel time
+gh api orgs/$GITHUB_ORG/repos --method POST \
+  --field name=push-test --field auto_init=true
+gh api repos/$GITHUB_ORG/push-test/contents/test.txt --method PUT \
+  --field message="demo commit" --field content="$(echo 'hello' | base64)"
 
 # 3. Rapid Repo Delete (CRITICAL)
-gh api orgs/<org-name>/repos --method POST --field name=temp-delete-test
+gh api orgs/$GITHUB_ORG/repos --method POST --field name=temp-delete-test
 # wait a few seconds...
-gh api repos/<org-name>/temp-delete-test --method DELETE
+gh api repos/$GITHUB_ORG/temp-delete-test --method DELETE
 ```
 
 **Browser — Show dashboards**
@@ -239,7 +249,8 @@ npx ts-node scripts/pressure-test.ts --count 50 --concurrency 10
 
 **Cleanup**
 ```bash
-gh api orgs/<org-name>/teams/hacker-demo --method DELETE
+gh api orgs/$GITHUB_ORG/teams/hacker-demo --method DELETE
+gh api repos/$GITHUB_ORG/push-test --method DELETE
 docker compose down
 ```
 
