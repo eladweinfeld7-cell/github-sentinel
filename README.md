@@ -48,9 +48,19 @@ GitHub Org ──webhook──> webhook-server (Producer) ──BullMQ──> ev
 
 ### Prerequisites
 
-- Node.js 20+
-- Docker & Docker Compose
-- GitHub CLI (`gh`)
+```bash
+# Node.js 20+ (via nvm)
+nvm install 20 && nvm use 20
+
+# Docker Desktop (includes Docker Compose)
+# macOS:
+brew install --cask docker
+# Then open Docker Desktop from Applications and start it
+
+# GitHub CLI
+brew install gh
+gh auth login
+```
 
 ### Setup
 
@@ -159,16 +169,18 @@ npm run generate:rule -- my-new-rule
 # 5. Write tests in rules/my-new-rule.rule.spec.ts
 ```
 
-## GitHub Webhook Setup
+## GitHub Webhook Setup (one-time)
+
+This registers a webhook on your GitHub org. You only need to do this **once** — the webhook persists on GitHub until you delete it.
 
 ```bash
-# Generate a webhook secret
+# 1. Generate a webhook secret
 export GITHUB_WEBHOOK_SECRET=$(openssl rand -hex 20)
 
-# Start webhook proxy for local dev
-npx smee-client --url https://smee.io/new --target http://localhost:3000/webhook
+# 2. Create a Smee channel (free webhook proxy for local dev)
+#    Go to https://smee.io/new and copy the URL
 
-# Register webhook on your GitHub org
+# 3. Register webhook on your GitHub org
 gh api orgs/<org-name>/hooks --method POST \
   --field name=web \
   --field active=true \
@@ -178,6 +190,15 @@ gh api orgs/<org-name>/hooks --method POST \
   --field 'config[url]=<smee-url>' \
   --field "config[secret]=$GITHUB_WEBHOOK_SECRET" \
   --field 'config[content_type]=json'
+
+# 4. Save the secret in your .env file
+echo "GITHUB_WEBHOOK_SECRET=$GITHUB_WEBHOOK_SECRET" >> .env
+```
+
+On each dev session, start the Smee proxy to forward webhooks to localhost:
+
+```bash
+npx smee-client --url <smee-url> --target http://localhost:3000/webhook
 ```
 
 ## Deployment
