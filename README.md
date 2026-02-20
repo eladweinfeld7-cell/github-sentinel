@@ -157,16 +157,41 @@ github-sentinel/
 └── docker-compose.yml
 ```
 
-## Adding a New Rule
+## Scaffolding Generators
+
+### Add a new detection rule
 
 ```bash
-# 1. Generate scaffolding
 npm run generate:rule -- my-new-rule
+# Creates: rules/my-new-rule.rule.ts + rules/my-new-rule.rule.spec.ts
 
-# 2. Add to RuleName enum (libs/detection-engine/src/enums.ts)
-# 3. Register as provider in apps/event-worker/src/app.module.ts
-# 4. Implement detection logic in rules/my-new-rule.rule.ts
-# 5. Write tests in rules/my-new-rule.rule.spec.ts
+# Then:
+# 1. Add to RuleName enum (libs/detection-engine/src/enums.ts)
+# 2. Register as provider in apps/event-worker/src/app.module.ts
+# 3. Implement detection logic and tests
+```
+
+### Add a new app (e.g. API server, scheduler)
+
+```bash
+npm run generate:app -- my-app
+# Creates: apps/my-app/src/main.ts + app.module.ts + tsconfig.app.json
+
+# Then:
+# 1. Add project entry to nest-cli.json
+# 2. Add build/start scripts to package.json
+```
+
+### Add a new shared library
+
+```bash
+npm run generate:lib -- my-lib
+# Creates: libs/my-lib/src/my-lib.module.ts + index.ts + tsconfig.lib.json
+
+# Then:
+# 1. Add "@github-sentinel/my-lib" path to tsconfig.json
+# 2. Add project entry to nest-cli.json
+# 3. Add moduleNameMapper entry to package.json jest config
 ```
 
 ## GitHub Webhook Setup (one-time)
