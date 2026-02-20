@@ -113,8 +113,10 @@ Bull Board UI is available at `http://localhost:3000/admin/queues` when the webh
 # Unit tests (no external deps needed)
 npm test
 
-# E2E tests (requires Redis + MongoDB running)
+# E2E tests (requires only Redis + MongoDB — stop app containers first)
+docker compose up redis mongodb -d
 npm run test:e2e:webhook-server
+npm run test:e2e:event-worker
 ```
 
 ### Pressure Test
