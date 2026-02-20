@@ -201,6 +201,48 @@ On each dev session, start the Smee proxy to forward webhooks to localhost:
 npx smee-client --url <smee-url> --target http://localhost:3000/webhook
 ```
 
+## Demo Walkthrough
+
+**Terminal 1 — Start the system**
+```bash
+docker compose up --build -d
+docker compose logs -f event-worker    # watch alerts appear here
+```
+
+**Terminal 2 — Start webhook proxy** (forwards GitHub events to localhost)
+```bash
+npx smee-client --url <smee-url> --target http://localhost:3000/webhook
+```
+
+**Terminal 3 — Trigger real GitHub events**
+```bash
+# 1. Hacker Team alert (HIGH)
+gh api orgs/<org-name>/teams --method POST \
+  --field name=hacker-demo --field privacy=closed
+
+# 2. Push Time Anomaly (MEDIUM) — push a code change during 14:00-16:00 Israel time
+
+# 3. Rapid Repo Delete (CRITICAL)
+gh api orgs/<org-name>/repos --method POST --field name=temp-delete-test
+# wait a few seconds...
+gh api repos/<org-name>/temp-delete-test --method DELETE
+```
+
+**Browser — Show dashboards**
+- Queue dashboard: `http://localhost:3000/admin/queues`
+- Health check: `http://localhost:3000/health`
+
+**Bonus — Pressure test** (50 simulated events)
+```bash
+npx ts-node scripts/pressure-test.ts --count 50 --concurrency 10
+```
+
+**Cleanup**
+```bash
+gh api orgs/<org-name>/teams/hacker-demo --method DELETE
+docker compose down
+```
+
 ## Deployment
 
 ### Dev Mode
