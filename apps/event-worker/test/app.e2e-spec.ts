@@ -189,6 +189,7 @@ describe('Event Worker (E2E)', () => {
   function repoEvent(
     action: 'created' | 'deleted',
     repoId = 999,
+    createdAt = new Date().toISOString(),
   ): RepositoryWebhookEvent {
     return {
       type: WebhookEventType.REPOSITORY,
@@ -199,7 +200,7 @@ describe('Event Worker (E2E)', () => {
         full_name: 'org/temp-repo',
         private: false,
         owner: { login: 'org', id: 1 },
-        created_at: new Date().toISOString(),
+        created_at: createdAt,
       },
       organization: { login: 'org', id: 1 },
       sender: { login: 'testuser', id: 1 },
@@ -256,13 +257,9 @@ describe('Event Worker (E2E)', () => {
   });
 
   it('should create a rapid-repo-delete alert when repo is deleted shortly after creation', async () => {
-    // 1. Enqueue the "created" event and wait for it to be persisted
-    await enqueue('repo-create-1', repoEvent('created', 500));
-    await waitForEvents(1);
-
-    // 2. Now enqueue the "deleted" event for the same repo
+    // created_at is set to now() by default — deletion within the 10-min window
     await enqueue('repo-delete-1', repoEvent('deleted', 500));
-    await waitForEvents(2);
+    await waitForEvents(1);
     await waitForStable();
 
     const alerts = await getAlerts();
@@ -271,8 +268,9 @@ describe('Event Worker (E2E)', () => {
     expect(alerts[0].severity).toBe(Severity.CRITICAL);
   });
 
-  it('should NOT alert when repo is deleted without a prior creation record', async () => {
-    await enqueue('repo-delete-orphan', repoEvent('deleted', 777));
+  it('should NOT alert when repo was created long ago', async () => {
+    const longAgo = new Date(Date.now() - 60 * 60_000).toISOString(); // 60 min ago
+    await enqueue('repo-delete-old', repoEvent('deleted', 777, longAgo));
     await waitForEvents(1);
     await waitForStable();
 

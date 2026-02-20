@@ -47,6 +47,20 @@ describe('RapidRepoDeleteRule', () => {
     expect(result).toBeNull();
   });
 
+  it('should not alert at exactly the window boundary (10 minutes)', async () => {
+    const createdAt = new Date(Date.now() - 10 * 60_000); // exactly 10 minutes ago
+    const event = createRepoEvent('deleted', createdAt.toISOString());
+    const result = await rule.evaluate(event);
+    expect(result).toBeNull();
+  });
+
+  it('should alert at 9 minutes (just under the window)', async () => {
+    const createdAt = new Date(Date.now() - 9 * 60_000); // 9 minutes ago
+    const event = createRepoEvent('deleted', createdAt.toISOString());
+    const result = await rule.evaluate(event);
+    expect(result).not.toBeNull();
+  });
+
   it('should not alert on repo creation', async () => {
     const event = createRepoEvent('created');
     const result = await rule.evaluate(event);

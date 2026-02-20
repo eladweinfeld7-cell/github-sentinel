@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import {
@@ -9,8 +9,6 @@ import { WebhookEvent, WebhookEventType } from '@github-sentinel/github-types';
 
 @Injectable()
 export class EventRecordService {
-  private readonly logger = new Logger(EventRecordService.name);
-
   constructor(
     @InjectModel(EventRecord.name)
     private readonly model: Model<EventRecordDocument>,
@@ -38,22 +36,6 @@ export class EventRecordService {
       senderLogin: event.sender.login,
       organizationLogin: event.organization.login,
     });
-  }
-
-  async findRecentByResource(
-    resourceId: string,
-    action: string,
-    windowMinutes: number,
-  ): Promise<EventRecordDocument | null> {
-    const cutoff = new Date(Date.now() - windowMinutes * 60_000);
-    return this.model
-      .findOne({
-        resourceId,
-        action,
-        eventTimestamp: { $gte: cutoff },
-      })
-      .sort({ eventTimestamp: -1 })
-      .exec();
   }
 
   private extractAction(event: WebhookEvent): string {

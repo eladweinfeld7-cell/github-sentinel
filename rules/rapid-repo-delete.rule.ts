@@ -41,7 +41,7 @@ export class RapidRepoDeleteRule implements DetectionRule {
     const diffMs = deletedAt.getTime() - createdAt.getTime();
     const diffMinutes = Math.floor(diffMs / 60_000);
 
-    if (diffMinutes > this.windowMinutes) {
+    if (diffMinutes >= this.windowMinutes) {
       return null;
     }
 
