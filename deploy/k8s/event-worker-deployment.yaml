@@ -16,6 +16,7 @@ spec:
       containers:
         - name: event-worker
           image: github-sentinel/event-worker:latest
+          imagePullPolicy: Never
           envFrom:
             - configMapRef:
                 name: github-sentinel-config

@@ -11,12 +11,11 @@ import {
   RepositoryWebhookEvent,
   WebhookEventType,
 } from '@github-sentinel/github-types';
-import { EventRecordService } from '@github-sentinel/persistence';
 import { ConfigService } from '@nestjs/config';
 
 @Rule({
   name: RuleName.RAPID_REPO_DELETE,
-  description: 'Detects repository deleted within 10 minutes of creation',
+  description: 'Detects repository deleted within configured window of creation',
 })
 @Injectable()
 export class RapidRepoDeleteRule implements DetectionRule {
@@ -24,10 +23,7 @@ export class RapidRepoDeleteRule implements DetectionRule {
 
   private readonly windowMinutes: number;
 
-  constructor(
-    private readonly eventRecordService: EventRecordService,
-    config: ConfigService,
-  ) {
+  constructor(config: ConfigService) {
     this.windowMinutes = config.get<number>('RAPID_DELETE_WINDOW_MINUTES', 10);
   }
 
@@ -38,22 +34,15 @@ export class RapidRepoDeleteRule implements DetectionRule {
       return null;
     }
 
-    const repoId = String(repoEvent.repository.id);
-
-    const creationRecord = await this.eventRecordService.findRecentByResource(
-      repoId,
-      'created',
-      this.windowMinutes,
-    );
-
-    if (!creationRecord) {
-      return null;
-    }
-
-    const createdAt = creationRecord.eventTimestamp;
+    // Use created_at from the payload — no DB lookup needed, no race condition
+    const createdAt = new Date(repoEvent.repository.created_at);
     const deletedAt = new Date();
     const diffMs = deletedAt.getTime() - createdAt.getTime();
     const diffMinutes = Math.floor(diffMs / 60_000);
+
+    if (diffMinutes > this.windowMinutes) {
+      return null;
+    }
 
     return {
       ruleName: RuleName.RAPID_REPO_DELETE,

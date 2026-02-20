@@ -27,6 +27,8 @@
     "generate:lib": "ts-node scripts/generate-lib.ts",
     "docker:up": "docker compose up --build",
     "docker:down": "docker compose down",
+    "k8s:deploy": "bash scripts/k8s-deploy.sh",
+    "k8s:destroy": "bash scripts/k8s-destroy.sh",
     "pressure-test": "ts-node scripts/pressure-test.ts"
   },
   "dependencies": {

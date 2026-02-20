@@ -287,16 +287,49 @@ docker compose up --build
 ```
 
 ### Prod Mode (Kubernetes)
+
+#### One-time prerequisite
+
 ```bash
-kubectl apply -f deploy/k8s/
+brew install minikube
 ```
+
+#### Deploy (single command)
+
+Starts minikube, installs KEDA + metrics-server, builds images, injects secrets from `.env`, and applies all manifests:
+
+```bash
+npm run k8s:deploy
+```
+
+#### Verify
+
+```bash
+kubectl -n github-sentinel get pods
+kubectl -n github-sentinel get svc
+kubectl -n github-sentinel logs -l app=event-worker --tail=20
+```
+
+#### Access the webhook-server
+
+```bash
+minikube service webhook-server -n github-sentinel
+```
+
+#### Tear down
+
+```bash
+npm run k8s:destroy
+```
+
+#### Scaling comparison
 
 | Component | Dev (Docker Compose) | Prod (Kubernetes) |
 |-----------|---------------------|-------------------|
-| webhook-server | 1 container | HPA: 2-10 pods (CPU) |
-| event-worker | 2 containers | KEDA: 2-20 pods (queue depth) |
+| webhook-server | 1 container | HPA: 2-10 pods (CPU 70%) |
+| event-worker | 2 containers | KEDA: 2-20 pods (queue depth > 50) |
 | Redis | 1 container | 1 pod |
-| MongoDB | 1 container | 1 pod + PVC |
+| MongoDB | 1 container | 1 pod + 5Gi PVC |
 
 ## Key Design Decisions
 
