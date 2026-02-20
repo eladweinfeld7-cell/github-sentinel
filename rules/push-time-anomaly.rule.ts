@@ -26,7 +26,10 @@ export class PushTimeAnomalyRule implements DetectionRule {
   private readonly endHour: number;
 
   constructor(config: ConfigService) {
-    this.timezone = config.get<string>('SUSPICIOUS_PUSH_TIMEZONE', 'UTC');
+    this.timezone = config.get<string>(
+      'SUSPICIOUS_PUSH_TIMEZONE',
+      'Asia/Jerusalem',
+    );
     this.startHour = config.get<number>('SUSPICIOUS_PUSH_START_HOUR', 14);
     this.endHour = config.get<number>('SUSPICIOUS_PUSH_END_HOUR', 16);
   }

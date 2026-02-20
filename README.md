@@ -201,7 +201,7 @@ kubectl apply -f deploy/k8s/
 | `MONGODB_URI` | `mongodb://localhost:27017/github-sentinel` | MongoDB connection string |
 | `REDIS_HOST` | `localhost` | Redis host |
 | `REDIS_PORT` | `6379` | Redis port |
-| `SUSPICIOUS_PUSH_TIMEZONE` | `UTC` | Timezone for push time checks |
+| `SUSPICIOUS_PUSH_TIMEZONE` | `Asia/Jerusalem` | Timezone for push time checks |
 | `SUSPICIOUS_PUSH_START_HOUR` | `14` | Start of suspicious window |
 | `SUSPICIOUS_PUSH_END_HOUR` | `16` | End of suspicious window |
 | `RAPID_DELETE_WINDOW_MINUTES` | `10` | Time window for rapid delete detection |
