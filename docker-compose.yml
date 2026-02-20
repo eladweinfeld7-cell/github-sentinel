@@ -1,6 +1,7 @@
 services:
   redis:
     image: redis:7-alpine
+    restart: unless-stopped
     ports:
       - '6379:6379'
     healthcheck:
@@ -11,6 +12,7 @@ services:
 
   mongodb:
     image: mongo:7
+    restart: unless-stopped
     ports:
       - '27017:27017'
     volumes:
@@ -25,6 +27,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.webhook-server
+    restart: unless-stopped
     ports:
       - '3000:3000'
     environment:
@@ -43,6 +46,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.event-worker
+    restart: unless-stopped
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379

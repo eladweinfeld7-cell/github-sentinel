@@ -52,26 +52,39 @@ GitHub Org ──webhook──> webhook-server (Producer) ──BullMQ──> ev
 - Docker & Docker Compose
 - GitHub CLI (`gh`)
 
-### Dev Mode (Docker Compose)
+### Setup
 
 ```bash
-# Clone and install
 git clone <repo-url> && cd github-sentinel
 npm install
-
-# Set up environment
 cp .env.example .env
-# Edit .env with your GITHUB_WEBHOOK_SECRET
+# Edit .env — set GITHUB_WEBHOOK_SECRET
+```
 
-# Start everything (Redis, MongoDB, webhook-server, 2x event-worker)
-docker compose up --build
+### Option A — Docker Compose (recommended for demo/testing)
+
+Runs everything in containers. No local Node.js needed after install.
+
+```bash
+docker compose up --build -d
 
 # Watch alert output in real-time
 docker compose logs -f event-worker
+```
 
-# Or run locally without Docker:
+### Option B — Hybrid Dev (for active development)
+
+Runs Redis + MongoDB in Docker, apps locally with hot-reload.
+
+```bash
+# 1. Start only infrastructure
+docker compose up redis mongodb -d
+
+# 2. Start apps locally (hot-reload on code changes)
 npm run start:dev
 ```
+
+> **Important:** Do not mix the two modes. If you ran `docker compose up --build`, stop everything first with `docker compose down` before using Option B.
 
 ### Stop
 
