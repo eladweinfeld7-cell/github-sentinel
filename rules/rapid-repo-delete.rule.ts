@@ -15,7 +15,8 @@ import { ConfigService } from '@nestjs/config';
 
 @Rule({
   name: RuleName.RAPID_REPO_DELETE,
-  description: 'Detects repository deleted within configured window of creation',
+  description:
+    'Detects repository deleted within configured window of creation',
 })
 @Injectable()
 export class RapidRepoDeleteRule implements DetectionRule {

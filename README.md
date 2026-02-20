@@ -294,26 +294,58 @@ docker compose up --build
 brew install minikube
 ```
 
-#### Deploy (single command)
+#### Deploy
 
-Starts minikube, installs KEDA + metrics-server, builds images, injects secrets from `.env`, and applies all manifests:
+Starts minikube, installs KEDA + metrics-server, builds images, and applies all manifests:
 
 ```bash
 npm run k8s:deploy
 ```
 
-#### Verify
+#### Connect to real GitHub events
+
+The K8s cluster runs locally inside minikube, so GitHub can't reach it directly.
+You need a minikube tunnel + the smee proxy (same as dev mode):
+
+```bash
+source .env
+
+# Terminal 1 — open a tunnel to the webhook-server (note the URL it prints)
+minikube service webhook-server -n github-sentinel
+# → http://127.0.0.1:<port>
+
+# Terminal 2 — forward GitHub webhooks into the tunnel
+npx smee-client --url $SMEE_URL --target http://127.0.0.1:<port>/webhook
+```
+
+Replace `<port>` with the port printed by `minikube service`.
+
+#### View alerts
+
+```bash
+# Console output (live stream) — this is the "console app" output
+kubectl -n github-sentinel logs -f -l app=event-worker
+
+# Query alerts stored in MongoDB
+kubectl -n github-sentinel exec deploy/mongodb -- \
+  mongosh github-sentinel --quiet --eval "db.alertrecords.find({},{_id:0}).pretty()"
+
+# Query raw events stored in MongoDB
+kubectl -n github-sentinel exec deploy/mongodb -- \
+  mongosh github-sentinel --quiet --eval "db.eventrecords.find({},{_id:0}).pretty()"
+```
+
+#### Dashboards
+
+While the minikube tunnel is running, open in browser:
+- Queue dashboard: `http://127.0.0.1:<port>/admin/queues`
+- Health check: `http://127.0.0.1:<port>/health`
+
+#### Verify pods
 
 ```bash
 kubectl -n github-sentinel get pods
 kubectl -n github-sentinel get svc
-kubectl -n github-sentinel logs -l app=event-worker --tail=20
-```
-
-#### Access the webhook-server
-
-```bash
-minikube service webhook-server -n github-sentinel
 ```
 
 #### Tear down
